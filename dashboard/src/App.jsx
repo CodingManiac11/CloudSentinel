@@ -243,26 +243,27 @@ const StatCard = ({ title, value, subtext, icon: Icon, color, delay, onClick }) 
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay }}
-    className={`glass-card stat-card p-4 md:p-6 flex flex-col justify-between min-h-[140px] overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}
+    className={`glass-card p-5 flex flex-col gap-3 ${onClick ? 'cursor-pointer' : ''}`}
     onClick={onClick}
     whileHover={onClick ? { scale: 1.02 } : {}}
+    style={{ minHeight: '160px' }}
   >
-    <div className="flex justify-between items-start gap-2">
-      <div className="p-2 md:p-3 rounded-lg flex-shrink-0" style={{ backgroundColor: `${color}20` }}>
-        <Icon size={20} style={{ color }} />
+    <div className="flex justify-between items-start">
+      <div className="p-2.5 rounded-lg flex-shrink-0" style={{ backgroundColor: `${color}20` }}>
+        <Icon size={22} style={{ color }} />
       </div>
       {Icon === Activity && (
-        <span className="text-xs font-mono text-[var(--neon-green)] flex items-center gap-1 flex-shrink-0">
+        <span className="text-xs font-mono text-[var(--neon-green)] flex items-center gap-1">
           +12% <ChevronRight size={10} className="-rotate-90" />
         </span>
       )}
     </div>
-    <div className="min-w-0 overflow-hidden">
-      <h3 className="text-[var(--text-secondary)] text-xs md:text-sm font-medium mb-1 truncate">{title}</h3>
-      <div className="stat-value font-bold font-mono tracking-tighter truncate" style={{ textShadow: `0 0 20px ${color}40` }}>
+    <div className="flex flex-col gap-1 mt-auto">
+      <h3 className="text-[var(--text-secondary)] text-sm font-medium">{title}</h3>
+      <div className="text-2xl font-bold font-mono tracking-tight" style={{ textShadow: `0 0 20px ${color}40`, color: '#fff' }}>
         {value}
       </div>
-      {subtext && <p className="text-xs text-[var(--text-dim)] mt-1 truncate">{subtext}</p>}
+      {subtext && <p className="text-xs text-[var(--text-dim)]">{subtext}</p>}
     </div>
   </motion.div>
 );
@@ -589,8 +590,8 @@ const LogsView = () => {
 
 // --- Dashboard View ---
 const DashboardView = ({ mockData, findings, onFix, fixingId, onViewAll }) => (
-  <div className="space-y-6">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div className="space-y-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
       <StatCard
         title="Security Score"
         value={`${mockData.score}/100`}
@@ -624,7 +625,7 @@ const DashboardView = ({ mockData, findings, onFix, fixingId, onViewAll }) => (
       />
     </div>
 
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-96">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5" style={{ minHeight: '380px' }}>
       {/* Risk Trend Chart */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
@@ -1093,7 +1094,7 @@ const App = () => {
         </motion.header>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-8 relative z-0 scroll-smooth">
+        <div className="flex-1 overflow-y-auto px-10 py-8 relative z-0 scroll-smooth">
           <AnimatePresence mode="wait">
             {activeTab === 'dashboard' && (
               <motion.div
@@ -1103,8 +1104,8 @@ const App = () => {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="mb-8">
-                  <h2 className="text-3xl font-bold tracking-tight mb-2">Security Overview</h2>
+                <div className="mb-10">
+                  <h2 className="text-3xl font-bold tracking-tight mb-3">Security Overview</h2>
                   <p className="text-[var(--text-secondary)]">Real-time threat monitoring and risk assessment.</p>
                 </div>
                 <DashboardView
