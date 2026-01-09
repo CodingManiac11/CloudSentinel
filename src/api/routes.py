@@ -87,11 +87,15 @@ class ApprovalRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    """API root - health check"""
+    """Serve frontend at root, or API info if not built"""
+    index_file = FRONTEND_DIR / "index.html"
+    if index_file.exists():
+        return FileResponse(index_file)
     return {
         "service": "CloudSentinel API",
         "version": "1.0.0",
         "status": "healthy",
+        "docs": "/api/docs",
         "timestamp": datetime.now().isoformat(),
     }
 
