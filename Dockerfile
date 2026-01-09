@@ -12,8 +12,9 @@ RUN apt-get update && apt-get install -y curl && \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code
+# Copy all source files including start.py
 COPY src/ ./src/
+COPY start.py .
 COPY setup.py .
 
 # Copy and build frontend
@@ -29,5 +30,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-# Run the unified full-stack server
-CMD ["uvicorn", "src.api.routes:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run the server using start.py
+CMD ["python", "start.py"]
