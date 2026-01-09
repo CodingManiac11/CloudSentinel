@@ -243,26 +243,26 @@ const StatCard = ({ title, value, subtext, icon: Icon, color, delay, onClick }) 
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay }}
-    className={`glass-card p-6 flex flex-col justify-between h-40 ${onClick ? 'cursor-pointer' : ''}`}
+    className={`glass-card stat-card p-4 md:p-6 flex flex-col justify-between min-h-[140px] overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}
     onClick={onClick}
     whileHover={onClick ? { scale: 1.02 } : {}}
   >
-    <div className="flex justify-between items-start">
-      <div className="p-3 rounded-lg" style={{ backgroundColor: `${color}20` }}>
-        <Icon size={24} style={{ color }} />
+    <div className="flex justify-between items-start gap-2">
+      <div className="p-2 md:p-3 rounded-lg flex-shrink-0" style={{ backgroundColor: `${color}20` }}>
+        <Icon size={20} style={{ color }} />
       </div>
       {Icon === Activity && (
-        <span className="text-xs font-mono text-[var(--neon-green)] flex items-center gap-1">
+        <span className="text-xs font-mono text-[var(--neon-green)] flex items-center gap-1 flex-shrink-0">
           +12% <ChevronRight size={10} className="-rotate-90" />
         </span>
       )}
     </div>
-    <div>
-      <h3 className="text-[var(--text-secondary)] text-sm font-medium mb-1">{title}</h3>
-      <div className="text-3xl font-bold font-mono tracking-tighter" style={{ textShadow: `0 0 20px ${color}40` }}>
+    <div className="min-w-0 overflow-hidden">
+      <h3 className="text-[var(--text-secondary)] text-xs md:text-sm font-medium mb-1 truncate">{title}</h3>
+      <div className="stat-value font-bold font-mono tracking-tighter truncate" style={{ textShadow: `0 0 20px ${color}40` }}>
         {value}
       </div>
-      {subtext && <p className="text-xs text-[var(--text-dim)] mt-1">{subtext}</p>}
+      {subtext && <p className="text-xs text-[var(--text-dim)] mt-1 truncate">{subtext}</p>}
     </div>
   </motion.div>
 );
@@ -729,17 +729,17 @@ const DashboardView = ({ mockData, findings, onFix, fixingId, onViewAll }) => (
           <tbody>
             {findings.filter(f => !f.fixed).slice(0, 5).map((item) => (
               <tr key={item.id} className="border-b border-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.02)] transition-colors">
-                <td className="px-4 py-4">
+                <td className="px-4 py-4 w-24 flex-shrink-0">
                   <SeverityPill severity={item.severity} />
                 </td>
-                <td className="px-4 py-3 font-medium">{item.title}</td>
-                <td className="px-4 py-3 text-[var(--text-secondary)] font-mono text-xs">{item.resource}</td>
-                <td className="px-4 py-3 text-[var(--text-dim)]">{item.type}</td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 font-medium max-w-[180px] truncate" title={item.title}>{item.title}</td>
+                <td className="px-4 py-3 text-[var(--text-secondary)] font-mono text-xs max-w-[150px] truncate" title={item.resource}>{item.resource}</td>
+                <td className="px-4 py-3 text-[var(--text-dim)] max-w-[100px] truncate">{item.type}</td>
+                <td className="px-4 py-3 w-28 flex-shrink-0">
                   <button
                     onClick={() => onFix(item.id)}
                     disabled={fixingId === item.id}
-                    className="glow-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 disabled:opacity-50"
+                    className="glow-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 disabled:opacity-50 whitespace-nowrap"
                   >
                     {fixingId === item.id ? (
                       <><RefreshCw size={12} className="animate-spin" /> Fixing...</>
