@@ -2,13 +2,10 @@
 builder = "NIXPACKS"
 
 [deploy]
-startCommand = "cd /app && uvicorn src.api.routes:app --host 0.0.0.0 --port ${PORT:-8000}"
+startCommand = "uvicorn src.api.routes:app --host 0.0.0.0 --port ${PORT:-8000}"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
-
-[[services]]
-internalPort = 8000
 
 [env]
 AWS_DEFAULT_REGION = "us-east-1"
