@@ -16,9 +16,25 @@ import asyncio
 import uuid
 import os
 
-# Determine the base directory
+# Determine the base directory - works both locally and on Railway
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-FRONTEND_DIR = BASE_DIR / "dashboard" / "dist"
+
+# Try multiple possible frontend locations
+POSSIBLE_FRONTEND_DIRS = [
+    BASE_DIR / "dashboard" / "dist",
+    Path("/app/dashboard/dist"),  # Docker/Railway path
+    Path(os.environ.get("FRONTEND_DIR", "")) if os.environ.get("FRONTEND_DIR") else None,
+]
+
+FRONTEND_DIR = None
+for path in POSSIBLE_FRONTEND_DIRS:
+    if path and path.exists():
+        FRONTEND_DIR = path
+        break
+
+# Fallback to default if none found
+if FRONTEND_DIR is None:
+    FRONTEND_DIR = BASE_DIR / "dashboard" / "dist"
 
 # Create FastAPI app
 app = FastAPI(
